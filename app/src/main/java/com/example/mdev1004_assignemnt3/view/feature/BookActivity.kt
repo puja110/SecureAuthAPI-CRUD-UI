@@ -26,7 +26,7 @@ class BookActivity : AppCompatActivity() {
 
         // This loop will create 20 Views
         for (i in 1..10) {
-            bookList.add(BookResponse("Book Title", "Author Name", 4.5))
+            bookList.add(BookResponse("", "Book Title", "Author Name", 4.5))
         }
 
         val recyclerView = findViewById<RecyclerView>(R.id.recycler_view_book)

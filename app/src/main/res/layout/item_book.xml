@@ -23,10 +23,11 @@
 
             <ImageView
                 android:id="@+id/iv_book_image"
-                android:layout_width="100dp"
+                android:layout_width="95dp"
                 android:layout_height="95dp"
                 android:scaleType="fitXY"
                 android:layout_gravity="center"
+                android:paddingStart="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/deleteButton"

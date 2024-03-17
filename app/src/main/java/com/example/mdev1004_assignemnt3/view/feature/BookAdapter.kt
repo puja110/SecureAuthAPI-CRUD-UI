@@ -4,6 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.mdev1004_assignemnt3.R
 import com.example.mdev1004_assignemnt3.databinding.ItemBookBinding
 import com.example.mdev1004_assignemnt3.model.BookResponse
@@ -16,6 +18,12 @@ class BookAdapter(
     inner class MyViewHolder(private val binding: ItemBookBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(data: BookResponse?) {
             binding.tvBookTitle.text = data?.bookTitle
+
+            Glide.with(binding.root.context)
+                .load(data?.thumbnail)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.ic_launcher_background).into(binding.ivBookImage)
+
             binding.tvBookAuthor.text = data?.bookAuthor
             binding.tvBookRating.text = data?.bookRating.toString()
         }
