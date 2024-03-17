@@ -55,10 +55,10 @@
                 android:id="@+id/et_email"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:lines="1"
+                android:hint="Enter your email"
                 android:inputType="textAutoComplete"
-                android:textSize="16sp"
-                android:hint="Enter your email"/>
+                android:lines="1"
+                android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -82,7 +82,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="Enter password"
-                android:inputType="textAutoComplete"
+                android:inputType="textPassword"
                 android:lines="1"
                 android:textSize="16sp" />
 
