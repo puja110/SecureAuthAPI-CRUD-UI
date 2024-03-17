@@ -7,6 +7,7 @@ import android.widget.Button
 import android.widget.Toast
 import com.example.mdev1004_assignemnt3.MainActivity
 import com.example.mdev1004_assignemnt3.R
+import com.example.mdev1004_assignemnt3.view.feature.BookActivity
 import com.google.android.material.textfield.TextInputEditText
 
 class LoginActivity : AppCompatActivity() {
@@ -27,10 +28,10 @@ class LoginActivity : AppCompatActivity() {
 
         // navigate to the Main Screen
         btnLogin.setOnClickListener {
-            if(isValid()) {
-                val intent = Intent(this, MainActivity::class.java)
+            // if(isValid()) {
+                val intent = Intent(this, BookActivity::class.java)
                 startActivity(intent)
-            }
+            // }
         }
 
         // navigate to the Register Screen
