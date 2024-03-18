@@ -15,9 +15,9 @@ data class SignupRequest(
     val address: String,
 
     @SerializedName("email")
-    val email: TextInputEditText,
+    val email: String,
 
     @SerializedName("password")
-    val password: TextInputEditText
+    val password: String
 )
 

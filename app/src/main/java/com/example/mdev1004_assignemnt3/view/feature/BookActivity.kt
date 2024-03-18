@@ -32,8 +32,10 @@ class BookActivity : AppCompatActivity() {
             onBackPressedDispatcher.onBackPressed()
         }
 
+        // getting access token from the server
         val accessToken = sessionManager.fetchAuthToken().toString()
 
+        // fetching book data from the server
         apiClient.getApiService()
             .getBooks(token = "Bearer $accessToken")
             .enqueue(object : Callback<List<BookResponse>> {
@@ -41,6 +43,7 @@ class BookActivity : AppCompatActivity() {
                     call: Call<List<BookResponse>>,
                     response: Response<List<BookResponse>>
                 ) {
+                    // loading data in the recyclerview
                     val recyclerView = findViewById<RecyclerView>(R.id.recycler_view_book)
                     recyclerView.layoutManager = LinearLayoutManager(this@BookActivity)
                     recyclerView.adapter = BookAdapter(response.body() ?: emptyList())

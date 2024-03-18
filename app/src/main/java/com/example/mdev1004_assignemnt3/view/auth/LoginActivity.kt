@@ -16,6 +16,13 @@ import com.google.android.material.textfield.TextInputEditText
 import retrofit2.Call
 import retrofit2.Response
 
+/**
+ * Filename: LoginActivity.kt.js
+ * Student Name / Student ID:
+ * Puja Shrestha, 200573293
+ * Suyog Shrestha, 200565523
+ * Date: March 17, 2024
+ */
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var btnLogin : Button
@@ -35,7 +42,7 @@ class LoginActivity : AppCompatActivity() {
         btnLogin = findViewById(R.id.btn_login)
         btnRegister = findViewById(R.id.btn_register)
 
-        // navigate to the Main Screen
+        // user login and token generate with retrofit login method
         btnLogin.setOnClickListener {
             if (isValid()) {
                 apiClient = ApiClient
@@ -50,7 +57,6 @@ class LoginActivity : AppCompatActivity() {
                 )
                     .enqueue(object : retrofit2.Callback<LoginResponse> {
                         override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                            // Error logging in
                             Log.d("LoginOnFailure", t.toString())
                         }
 
@@ -61,6 +67,7 @@ class LoginActivity : AppCompatActivity() {
                             val loginResponse = response.body()
 
                             if (loginResponse?.message == "user logged in") {
+                                Toast.makeText(this@LoginActivity, "User logged in Successful!", Toast.LENGTH_LONG).show()
                                 sessionManager.saveAuthToken(loginResponse.accessToken)
                                 startActivity(intent)
                             } else {
@@ -73,11 +80,12 @@ class LoginActivity : AppCompatActivity() {
 
         // navigate to the Register Screen
         btnRegister.setOnClickListener {
-            val intent = Intent(this, BookActivity::class.java)
+            val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         }
     }
 
+    // validation done to check if the required fields are empty
     private fun isValid(): Boolean {
         val email = etEmail.text.toString()
         val password = etPassword.text.toString()

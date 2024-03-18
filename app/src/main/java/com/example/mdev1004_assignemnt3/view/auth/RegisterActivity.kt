@@ -3,6 +3,7 @@ package com.example.mdev1004_assignemnt3.view.auth
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.Toast
 import com.example.mdev1004_assignemnt3.ApiClient
@@ -25,10 +26,9 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var etPassword : TextInputEditText
     private lateinit var etConfirmPassword : TextInputEditText
 
-    // Const Elements
-    private lateinit var etFirstName : String
-    private lateinit var etLastName : String
-    private lateinit var etAddress : String
+    private lateinit var etFirstName : TextInputEditText
+    private lateinit var etLastName : TextInputEditText
+    private lateinit var etAddress : TextInputEditText
 
     private lateinit var sessionManager: SessionManager
     private lateinit var apiClient: ApiClient
@@ -37,31 +37,34 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
-        etFirstName = "Test"
-        etLastName = "User"
-        etAddress = "Georgian Drive, Barrie, ON, CA"
-
+        etFirstName = findViewById(R.id.et_first_name)
+        etLastName = findViewById(R.id.et_last_name)
+        etAddress = findViewById(R.id.et_address)
         etEmail = findViewById(R.id.et_email)
         etPassword = findViewById(R.id.et_password)
         etConfirmPassword = findViewById(R.id.et_confirm_password)
         btnLogin = findViewById(R.id.btn_login)
         btnRegister = findViewById(R.id.btn_register)
 
-        val intent = Intent(this, LoginActivity::class.java)
+        var  firstName = etFirstName.text.toString()
+        var lastName = etLastName.text.toString()
+        val address = etAddress.text.toString()
+        val email = etEmail.text.toString()
+        val password = etPassword.text.toString()
 
-        // navigate to the Main Screen
-        btnLogin.setOnClickListener {
+        // navigate to the Login screen upon successful registration
+        btnRegister.setOnClickListener {
             if(isValid()) {
-
                 apiClient = ApiClient
                 sessionManager = SessionManager(this)
                 val intent = Intent(this, LoginActivity::class.java)
 
-                apiClient.getApiService().signup(SignupRequest(etFirstName, etLastName, etAddress, etEmail, etPassword))
+                // signup api function to register new user account
+                apiClient.getApiService().signup(SignupRequest(firstName = firstName, lastName = lastName, address = address, email = email, password = password))
                     .enqueue(object : Callback<SignupResponse> {
 
                         override fun onFailure(call: Call<SignupResponse>, t: Throwable) {
-                            TODO("Not yet implemented")
+                            Log.d("User registration error: ", t.toString())
                         }
 
                         override fun onResponse(
@@ -69,9 +72,9 @@ class RegisterActivity : AppCompatActivity() {
                             response: Response<SignupResponse>
                         ) {
                             val signupResponse = response.body()
-
+                            startActivity(intent)
+                            Toast.makeText(this@RegisterActivity, "User Registration Successful!", Toast.LENGTH_LONG).show()
                             if (signupResponse?.message == "user created") {
-                                startActivity(intent)
                             } else {
                                 // Error logging in
                             }
@@ -80,18 +83,36 @@ class RegisterActivity : AppCompatActivity() {
             }
         }
 
-        // navigate to the Register Screen
-        btnRegister.setOnClickListener {
+        // navigate back to the Login Screen
+        btnLogin.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
     }
 
-    //    Validation done to check if the required fields are empty, email is in valid format
+    // validation done to check if the required fields are empty, email is in valid format
     private fun isValid(): Boolean {
+        val firstname = etFirstName.text.toString()
+        val lastname = etLastName.text.toString()
+        val address = etAddress.text.toString()
         val email = etEmail.text.toString()
         val password = etPassword.text.toString()
         val confirmPassword = etConfirmPassword.text.toString()
+
+        if (firstname.isEmpty()) {
+            Toast.makeText(this@RegisterActivity, "Firstname field cannot be empty!", Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        if (lastname.isEmpty()) {
+            Toast.makeText(this@RegisterActivity, "Lastname field cannot be empty!", Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        if (address.isEmpty()) {
+            Toast.makeText(this@RegisterActivity, "Address field cannot be empty!", Toast.LENGTH_SHORT).show()
+            return false
+        }
 
         if (email.isEmpty()) {
             Toast.makeText(this@RegisterActivity, "Email field cannot be empty!", Toast.LENGTH_SHORT).show()
