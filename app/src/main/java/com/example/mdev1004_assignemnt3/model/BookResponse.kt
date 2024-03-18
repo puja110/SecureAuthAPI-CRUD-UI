@@ -3,15 +3,15 @@ package com.example.mdev1004_assignemnt3.model
 import com.google.gson.annotations.SerializedName
 
 data class BookResponse(
-    @SerializedName("status_code")
+    @SerializedName("isbn")
     val thumbnail: String?,
 
-    @SerializedName("bookTitle")
+    @SerializedName("booksName")
     val bookTitle: String?,
 
-    @SerializedName("bookAuthor")
+    @SerializedName("author")
     val bookAuthor: String?,
 
-    @SerializedName("bookRating")
+    @SerializedName("rating")
     val bookRating: Double,
 )

@@ -37,30 +37,38 @@ class LoginActivity : AppCompatActivity() {
 
         // navigate to the Main Screen
         btnLogin.setOnClickListener {
+            if (isValid()) {
+                apiClient = ApiClient
+                sessionManager = SessionManager(this)
+                val intent = Intent(this, BookActivity::class.java)
 
-            apiClient = ApiClient
-            sessionManager = SessionManager(this)
-            val intent = Intent(this, BookActivity::class.java)
-
-            apiClient.getApiService().login(LoginRequest(email = etEmail, password = etPassword))
-                .enqueue(object : retrofit2.Callback<LoginResponse> {
-                    override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                        // Error logging in
-                        Log.d("LoginOnFailure",t.toString())
-                    }
-
-                    override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
-                        val loginResponse = response.body()
-
-                        if (loginResponse?.message == "user logged in") {
-                            sessionManager.saveAuthToken(loginResponse.accessToken)
-                            startActivity(intent)
-                        } else {
+                apiClient.getApiService().login(
+                    LoginRequest(
+                        email = etEmail.text.toString(),
+                        password = etPassword.text.toString()
+                    )
+                )
+                    .enqueue(object : retrofit2.Callback<LoginResponse> {
+                        override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                             // Error logging in
+                            Log.d("LoginOnFailure", t.toString())
                         }
-                    }
-                })
 
+                        override fun onResponse(
+                            call: Call<LoginResponse>,
+                            response: Response<LoginResponse>
+                        ) {
+                            val loginResponse = response.body()
+
+                            if (loginResponse?.message == "user logged in") {
+                                sessionManager.saveAuthToken(loginResponse.accessToken)
+                                startActivity(intent)
+                            } else {
+                                Log.d("User login: ", "Error logging in")
+                            }
+                        }
+                    })
+            }
         }
 
         // navigate to the Register Screen

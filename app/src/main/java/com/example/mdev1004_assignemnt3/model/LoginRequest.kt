@@ -6,8 +6,8 @@ import com.google.gson.annotations.SerializedName
 data class LoginRequest(
 
     @SerializedName("email")
-    var email: TextInputEditText,
+    var email: String,
 
     @SerializedName("password")
-    var password: TextInputEditText
+    var password: String
 )

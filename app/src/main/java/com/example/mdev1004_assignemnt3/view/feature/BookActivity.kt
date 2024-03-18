@@ -17,44 +17,39 @@ import retrofit2.Response
 
 class BookActivity : AppCompatActivity() {
 
-    private lateinit var ivBack : ImageView
+    private lateinit var ivBack: ImageView
     private lateinit var sessionManager: SessionManager
     private lateinit var apiClient: ApiClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_book)
+                setContentView(R.layout.activity_book)
 
+        apiClient = ApiClient
+        sessionManager = SessionManager(this)
         ivBack = findViewById(R.id.iv_back)
         ivBack.setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
 
-        val bookList : List<BookResponse>
+        val accessToken = sessionManager.fetchAuthToken().toString()
 
-        apiClient.getApiService().getBooks(token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1Zjc2Y2I0ZTNjZDBjMzJlZjhmNDM0ZSIsImlhdCI6MTcxMDcxNDM0MSwiZXhwIjoxNzEwODAwNzQxfQ.Duva0bWaJx-ntOdD9--wTbOdhV8N0tCtPfv3855jW3Y")
+        apiClient.getApiService()
+            .getBooks(token = "Bearer $accessToken")
             .enqueue(object : Callback<List<BookResponse>> {
                 override fun onResponse(
                     call: Call<List<BookResponse>>,
                     response: Response<List<BookResponse>>
                 ) {
-                    Log.d("Test", response.toString())
+                    val recyclerView = findViewById<RecyclerView>(R.id.recycler_view_book)
+                    recyclerView.layoutManager = LinearLayoutManager(this@BookActivity)
+                    recyclerView.adapter = BookAdapter(response.body() ?: emptyList())
                 }
 
                 override fun onFailure(call: Call<List<BookResponse>>, t: Throwable) {
-                    TODO("Not yet implemented")
+                    Log.d("book response error", t.toString())
                 }
-
             })
-
-        // This loop will create 20 Views
-//        for (i in 1..10) {
-//            bookList.add(BookResponse("", "Book Title", "Author Name", 4.5))
-//        }
-
-        val recyclerView = findViewById<RecyclerView>(R.id.recycler_view_book)
-        recyclerView.layoutManager = LinearLayoutManager(this)
-//        recyclerView.adapter = BookAdapter(bookList)
     }
 
 }

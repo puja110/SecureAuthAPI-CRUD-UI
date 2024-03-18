@@ -11,7 +11,7 @@ import com.example.mdev1004_assignemnt3.databinding.ItemBookBinding
 import com.example.mdev1004_assignemnt3.model.BookResponse
 
 class BookAdapter(
-    private var bookList: MutableList<BookResponse>,
+    private var bookList: List<BookResponse>,
 ) :
     RecyclerView.Adapter<BookAdapter.MyViewHolder>() {
 
