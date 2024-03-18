@@ -1,5 +1,6 @@
 package com.example.mdev1004_assignemnt3.model
 
+import com.google.android.material.textfield.TextInputEditText
 import com.google.gson.annotations.SerializedName
 
 data class SignupRequest(
@@ -14,9 +15,9 @@ data class SignupRequest(
     val address: String,
 
     @SerializedName("email")
-    val email: String,
+    val email: TextInputEditText,
 
     @SerializedName("password")
-    val password: String
+    val password: TextInputEditText
 )
 

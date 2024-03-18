@@ -24,6 +24,6 @@ interface ApiService {
 
     @POST("auth/signup")
     @FormUrlEncoded
-    fun login(@Body request: SignupRequest): Call<SignupResponse>
+    fun signup(@Body request: SignupRequest): Call<SignupResponse>
 
 }

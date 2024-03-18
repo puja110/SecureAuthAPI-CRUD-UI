@@ -5,9 +5,17 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.Toast
-import com.example.mdev1004_assignemnt3.MainActivity
+import com.example.mdev1004_assignemnt3.ApiClient
 import com.example.mdev1004_assignemnt3.R
+import com.example.mdev1004_assignemnt3.SessionManager
+import com.example.mdev1004_assignemnt3.model.LoginResponse
+import com.example.mdev1004_assignemnt3.model.SignupRequest
+import com.example.mdev1004_assignemnt3.model.SignupResponse
+import com.example.mdev1004_assignemnt3.view.feature.BookActivity
 import com.google.android.material.textfield.TextInputEditText
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -21,6 +29,9 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var etFirstName : String
     private lateinit var etLastName : String
     private lateinit var etAddress : String
+
+    private lateinit var sessionManager: SessionManager
+    private lateinit var apiClient: ApiClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,11 +47,36 @@ class RegisterActivity : AppCompatActivity() {
         btnLogin = findViewById(R.id.btn_login)
         btnRegister = findViewById(R.id.btn_register)
 
+        val intent = Intent(this, LoginActivity::class.java)
+
         // navigate to the Main Screen
         btnLogin.setOnClickListener {
             if(isValid()) {
-                val intent = Intent(this, LoginActivity::class.java)
-                startActivity(intent)
+
+                apiClient = ApiClient
+                sessionManager = SessionManager(this)
+                val intent = Intent(this, BookActivity::class.java)
+
+                apiClient.getApiService().signup(SignupRequest(etFirstName, etLastName, etAddress, etEmail, etPassword))
+                    .enqueue(object : Callback<SignupResponse> {
+
+                        override fun onFailure(call: Call<SignupResponse>, t: Throwable) {
+                            TODO("Not yet implemented")
+                        }
+
+                        override fun onResponse(
+                            call: Call<SignupResponse>,
+                            response: Response<SignupResponse>
+                        ) {
+                            val signupResponse = response.body()
+
+                            if (signupResponse?.message == "user created") {
+                                startActivity(intent)
+                            } else {
+                                // Error logging in
+                            }
+                        }
+                    })
             }
         }
 

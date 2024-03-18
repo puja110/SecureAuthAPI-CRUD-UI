@@ -39,6 +39,7 @@ class LoginActivity : AppCompatActivity() {
 
             apiClient = ApiClient
             sessionManager = SessionManager(this)
+            val intent = Intent(this, BookActivity::class.java)
 
             apiClient.getApiService().login(LoginRequest(email = etEmail, password = etPassword))
                 .enqueue(object : retrofit2.Callback<LoginResponse> {
@@ -49,16 +50,15 @@ class LoginActivity : AppCompatActivity() {
                     override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                         val loginResponse = response.body()
 
-                        if (loginResponse?.message == "user created") {
+                        if (loginResponse?.message == "user logged in") {
                             sessionManager.saveAuthToken(loginResponse.accessToken)
+                            startActivity(intent)
                         } else {
                             // Error logging in
                         }
                     }
                 })
 
-                val intent = Intent(this, BookActivity::class.java)
-                startActivity(intent)
         }
 
         // navigate to the Register Screen
