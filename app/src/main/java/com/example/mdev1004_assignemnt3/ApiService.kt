@@ -19,12 +19,10 @@ interface ApiService {
     fun getBooks(@Header ("Authorization") token: String): Call<List<BookResponse>>
 
     @POST("auth/login")
-    @FormUrlEncoded
     fun login(@Body request: LoginRequest): Call<LoginResponse>
 
 
     @POST("auth/signup")
-    @FormUrlEncoded
     fun signup(@Body request: SignupRequest): Call<SignupResponse>
 
 }
