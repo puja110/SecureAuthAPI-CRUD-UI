@@ -3,6 +3,7 @@ package com.example.mdev1004_assignemnt3.view.auth
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.Toast
 import com.example.mdev1004_assignemnt3.ApiClient
@@ -45,6 +46,7 @@ class LoginActivity : AppCompatActivity() {
                 .enqueue(object : retrofit2.Callback<LoginResponse> {
                     override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                         // Error logging in
+                        Log.d("LoginOnFailure",t.toString())
                     }
 
                     override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {

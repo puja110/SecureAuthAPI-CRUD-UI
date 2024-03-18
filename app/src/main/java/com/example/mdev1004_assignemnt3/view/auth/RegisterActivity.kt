@@ -55,7 +55,7 @@ class RegisterActivity : AppCompatActivity() {
 
                 apiClient = ApiClient
                 sessionManager = SessionManager(this)
-                val intent = Intent(this, BookActivity::class.java)
+                val intent = Intent(this, LoginActivity::class.java)
 
                 apiClient.getApiService().signup(SignupRequest(etFirstName, etLastName, etAddress, etEmail, etPassword))
                     .enqueue(object : Callback<SignupResponse> {

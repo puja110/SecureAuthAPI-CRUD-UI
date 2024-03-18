@@ -10,12 +10,13 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
 
 interface ApiService {
 
     @GET("books/")
-    fun getComments(): Call<List<BookResponse>>
+    fun getBooks(@Header ("Authorization") token: String): Call<List<BookResponse>>
 
     @POST("auth/login")
     @FormUrlEncoded
