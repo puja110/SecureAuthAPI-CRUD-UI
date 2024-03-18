@@ -5,10 +5,15 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.Toast
-import com.example.mdev1004_assignemnt3.MainActivity
+import com.example.mdev1004_assignemnt3.ApiClient
 import com.example.mdev1004_assignemnt3.R
+import com.example.mdev1004_assignemnt3.SessionManager
+import com.example.mdev1004_assignemnt3.model.LoginRequest
+import com.example.mdev1004_assignemnt3.model.LoginResponse
 import com.example.mdev1004_assignemnt3.view.feature.BookActivity
 import com.google.android.material.textfield.TextInputEditText
+import retrofit2.Call
+import retrofit2.Response
 
 class LoginActivity : AppCompatActivity() {
 
@@ -16,6 +21,9 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var btnRegister : Button
     private lateinit var etEmail : TextInputEditText
     private lateinit var etPassword : TextInputEditText
+
+    private lateinit var sessionManager: SessionManager
+    private lateinit var apiClient: ApiClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,10 +36,29 @@ class LoginActivity : AppCompatActivity() {
 
         // navigate to the Main Screen
         btnLogin.setOnClickListener {
-            // if(isValid()) {
+
+            apiClient = ApiClient
+            sessionManager = SessionManager(this)
+
+            apiClient.getApiService().login(LoginRequest(email = etEmail, password = etPassword))
+                .enqueue(object : retrofit2.Callback<LoginResponse> {
+                    override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                        // Error logging in
+                    }
+
+                    override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
+                        val loginResponse = response.body()
+
+                        if (loginResponse?.message == "user created") {
+                            sessionManager.saveAuthToken(loginResponse.accessToken)
+                        } else {
+                            // Error logging in
+                        }
+                    }
+                })
+
                 val intent = Intent(this, BookActivity::class.java)
                 startActivity(intent)
-            // }
         }
 
         // navigate to the Register Screen

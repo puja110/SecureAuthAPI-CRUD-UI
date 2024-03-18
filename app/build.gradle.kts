@@ -52,4 +52,13 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
     implementation("com.github.bumptech.glide:glide:4.16.0")
+
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    implementation("com.google.code.gson:gson:2.9.1")
+    implementation("com.squareup.okhttp3:okhttp:4.2.1")
+    implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
 }

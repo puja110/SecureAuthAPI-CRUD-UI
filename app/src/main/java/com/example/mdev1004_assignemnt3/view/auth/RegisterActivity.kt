@@ -17,9 +17,18 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var etPassword : TextInputEditText
     private lateinit var etConfirmPassword : TextInputEditText
 
+    // Const Elements
+    private lateinit var etFirstName : String
+    private lateinit var etLastName : String
+    private lateinit var etAddress : String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
+
+        etFirstName = "Test"
+        etLastName = "User"
+        etAddress = "Georgian Drive, Barrie, ON, CA"
 
         etEmail = findViewById(R.id.et_email)
         etPassword = findViewById(R.id.et_password)
