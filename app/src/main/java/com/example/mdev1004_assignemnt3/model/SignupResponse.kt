@@ -11,10 +11,3 @@ data class SignupResponse(
     val user: User
 )
 
-data class User(
-    @SerializedName("email")
-    val email: String,
-
-    @SerializedName("id")
-    val id: String
-)
