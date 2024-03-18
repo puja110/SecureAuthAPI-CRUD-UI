@@ -32,7 +32,7 @@ class BookActivity : AppCompatActivity() {
 
         val bookList : List<BookResponse>
 
-        apiClient.getApiService().getBooks(token = "Bearer ${sessionManager.fetchAuthToken()}")
+        apiClient.getApiService().getBooks(token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1Zjc2Y2I0ZTNjZDBjMzJlZjhmNDM0ZSIsImlhdCI6MTcxMDcxNDM0MSwiZXhwIjoxNzEwODAwNzQxfQ.Duva0bWaJx-ntOdD9--wTbOdhV8N0tCtPfv3855jW3Y")
             .enqueue(object : Callback<List<BookResponse>> {
                 override fun onResponse(
                     call: Call<List<BookResponse>>,

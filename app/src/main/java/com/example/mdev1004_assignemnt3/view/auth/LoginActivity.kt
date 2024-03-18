@@ -65,7 +65,7 @@ class LoginActivity : AppCompatActivity() {
 
         // navigate to the Register Screen
         btnRegister.setOnClickListener {
-            val intent = Intent(this, RegisterActivity::class.java)
+            val intent = Intent(this, BookActivity::class.java)
             startActivity(intent)
         }
     }
