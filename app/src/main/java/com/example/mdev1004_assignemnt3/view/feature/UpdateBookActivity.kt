@@ -75,11 +75,15 @@ class UpdateBookActivity: AppCompatActivity() {
                         call: Call<UpdateBookResponse>,
                         response: Response<UpdateBookResponse>
                     ) {
-                        val intent = Intent(this@UpdateBookActivity, BookActivity::class.java)
-                        startActivity(intent)
-                        Toast.makeText(this@UpdateBookActivity, "Book Updated", Toast.LENGTH_LONG).show()
-                    }
+                        if(response.isSuccessful){
+                            val intent = Intent(this@UpdateBookActivity, BookActivity::class.java)
+                            startActivity(intent)
+                            Toast.makeText(this@UpdateBookActivity, "Book Updated", Toast.LENGTH_LONG).show()
+                        }else {
+                            Toast.makeText(this@UpdateBookActivity, "Book Update Failure", Toast.LENGTH_LONG).show()
+                        }
 
+                    }
                     override fun onFailure(call: Call<UpdateBookResponse>, t: Throwable) {
                         Toast.makeText(this@UpdateBookActivity, "Book Update Failure", Toast.LENGTH_LONG).show()
                     }
