@@ -22,6 +22,7 @@ class BookActivity : AppCompatActivity() {
 
     private lateinit var ivBack: ImageView
     private lateinit var logOff: FloatingActionButton
+    private lateinit var addBook: FloatingActionButton
     private lateinit var sessionManager: SessionManager
     private lateinit var apiClient: ApiClient
 
@@ -33,10 +34,17 @@ class BookActivity : AppCompatActivity() {
         sessionManager = SessionManager(this)
         ivBack = findViewById(R.id.iv_back)
         logOff = findViewById(R.id.floatingActionButton)
+        addBook = findViewById(R.id.floatingActionAddButton)
 
         ivBack.setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
+
+        addBook.setOnClickListener {
+            val intent = Intent(this, AddBookActivity::class.java)
+            startActivity(intent)
+        }
+
         logOff.setOnClickListener {
             sessionManager.deleteAuthToken()
             val intent = Intent(this, LoginActivity::class.java)
@@ -62,7 +70,7 @@ class BookActivity : AppCompatActivity() {
                     // loading data in the recyclerview
                     val recyclerView = findViewById<RecyclerView>(R.id.recycler_view_book)
                     recyclerView.layoutManager = LinearLayoutManager(this@BookActivity)
-                    recyclerView.adapter = BookAdapter((response.body() ?: emptyList()).toMutableList(), sessionManager, apiClient)
+                    recyclerView.adapter = BookAdapter((response.body()?.asReversed() ?: emptyList()).toMutableList(), sessionManager, apiClient)
                 }
 
                 override fun onFailure(call: Call<List<BookResponse>>, t: Throwable) {

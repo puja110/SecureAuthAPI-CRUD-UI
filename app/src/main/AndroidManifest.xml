@@ -20,6 +20,9 @@
             android:name=".view.feature.UpdateBookActivity"
             android:exported="false" />
         <activity
+            android:name=".view.feature.AddBookActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.auth.RegisterActivity"
             android:exported="false" />
 
