@@ -17,8 +17,13 @@
             android:name=".view.feature.BookActivity"
             android:exported="false" />
         <activity
+            android:name=".view.feature.UpdateBookActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.auth.RegisterActivity"
             android:exported="false" />
+
+
         <activity
             android:name=".view.auth.LoginActivity"
             android:exported="true">
