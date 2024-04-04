@@ -58,6 +58,7 @@ class LoginActivity : AppCompatActivity() {
                     .enqueue(object : retrofit2.Callback<LoginResponse> {
                         override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                             Log.d("LoginOnFailure", t.toString())
+                            Toast.makeText(this@LoginActivity, "User logged in Failure!", Toast.LENGTH_LONG).show()
                         }
 
                         override fun onResponse(

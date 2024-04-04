@@ -46,15 +46,17 @@ class RegisterActivity : AppCompatActivity() {
         btnLogin = findViewById(R.id.btn_login)
         btnRegister = findViewById(R.id.btn_register)
 
-        var  firstName = etFirstName.text.toString()
-        var lastName = etLastName.text.toString()
-        val address = etAddress.text.toString()
-        val email = etEmail.text.toString()
-        val password = etPassword.text.toString()
+
 
         // navigate to the Login screen upon successful registration
         btnRegister.setOnClickListener {
             if(isValid()) {
+                var  firstName = etFirstName.text.toString()
+                var lastName = etLastName.text.toString()
+                val address = etAddress.text.toString()
+                val email = etEmail.text.toString()
+                val password = etPassword.text.toString()
+
                 apiClient = ApiClient
                 sessionManager = SessionManager(this)
                 val intent = Intent(this, LoginActivity::class.java)
@@ -65,6 +67,7 @@ class RegisterActivity : AppCompatActivity() {
 
                         override fun onFailure(call: Call<SignupResponse>, t: Throwable) {
                             Log.d("User registration error: ", t.toString())
+                            Toast.makeText(this@RegisterActivity, "User Registration Failure!", Toast.LENGTH_LONG).show()
                         }
 
                         override fun onResponse(
