@@ -24,6 +24,7 @@ class AddBookActivity : AppCompatActivity() {
     private lateinit var isbnEditText: EditText
     private lateinit var genreEditText: EditText
     private lateinit var ivBack: ImageView
+    private lateinit var updateButton: Button
 
     private lateinit var sessionManager: SessionManager
     private lateinit var apiClient: ApiClient
@@ -34,13 +35,7 @@ class AddBookActivity : AppCompatActivity() {
 
         // Initializing the session manager
         sessionManager = SessionManager(this)
-
-        ivBack = findViewById(R.id.iv_back)
-
-        // Allows the user to navigate back to the previous screen
-        ivBack.setOnClickListener {
-            onBackPressedDispatcher.onBackPressed()
-        }
+        apiClient = ApiClient
 
         // Initialize EditText fields
         bookNameEditText = findViewById(R.id.bookNameEditText)
@@ -48,17 +43,19 @@ class AddBookActivity : AppCompatActivity() {
         authorEditText = findViewById(R.id.authorEditText)
         isbnEditText = findViewById(R.id.isbnEditText)
         genreEditText = findViewById(R.id.genreEditText)
+        updateButton = findViewById(R.id.addButton)
+        ivBack = findViewById(R.id.iv_back)
 
-
-        // Handle update button click
-        val updateButton = findViewById<Button>(R.id.addButton)
+        // Allows the user to navigate back to the previous screen
+        ivBack.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
 
         // Getting access token from the server
         val accessToken = sessionManager.fetchAuthToken().toString()
 
         // Update book with retrofit login method
         updateButton.setOnClickListener {
-            apiClient = ApiClient
             apiClient.getApiService().addBook(
                 token = "Bearer $accessToken",
                 book = NewBook(
@@ -89,7 +86,6 @@ class AddBookActivity : AppCompatActivity() {
                     Toast.makeText(this@AddBookActivity, "Book Add Failure", Toast.LENGTH_LONG)
                         .show()
                 }
-
             })
         }
     }

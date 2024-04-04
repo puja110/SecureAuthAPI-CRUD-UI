@@ -34,8 +34,9 @@ class UpdateBookActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_update_book)
 
-        // Initializing the Session Manager
+        // Create an instances of ApiClient and Session Manager
         sessionManager = SessionManager(this)
+        apiClient = ApiClient
 
         // Retrieve the book data from the intent
         val book = intent.getStringArrayExtra("book")
@@ -51,6 +52,7 @@ class UpdateBookActivity: AppCompatActivity() {
         authorEditText = findViewById(R.id.authorEditText)
 
         Log.d("Book Id", book?.get(0).toString())
+
         // Populate the fields with the book data
         bookNameEditText.setText(book?.get(1))
         ratingEditText.setText(book?.get(2))
@@ -64,7 +66,6 @@ class UpdateBookActivity: AppCompatActivity() {
 
         // Set OnClickListener for the update book button
         updateButton.setOnClickListener {
-            apiClient = ApiClient   // Create an instance of ApiClient
             apiClient.getApiService().updateBook(   // Call the deleteBook function in the API service
                 id = book?.get(0).toString(),
                 token = "Bearer $accessToken",

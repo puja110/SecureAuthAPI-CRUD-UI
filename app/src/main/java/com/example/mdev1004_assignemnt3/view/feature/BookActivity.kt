@@ -38,6 +38,7 @@ class BookActivity : AppCompatActivity() {
         logOff = findViewById(R.id.floatingActionButton)
         addBook = findViewById(R.id.floatingActionAddButton)
 
+        // Allows the user to navigate back to the previous screen
         ivBack.setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }

@@ -1,5 +1,6 @@
 package com.example.mdev1004_assignemnt3.view.auth
 
+import android.app.ProgressDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -32,6 +33,7 @@ class RegisterActivity : AppCompatActivity() {
 
     private lateinit var sessionManager: SessionManager
     private lateinit var apiClient: ApiClient
+    private var progressDialog: ProgressDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,11 +54,14 @@ class RegisterActivity : AppCompatActivity() {
         val email = etEmail.text.toString()
         val password = etPassword.text.toString()
 
+        apiClient = ApiClient
+        sessionManager = SessionManager(this)
+        progressDialog = ProgressDialog(this)
+
         // navigate to the Login screen upon successful registration
         btnRegister.setOnClickListener {
             if(isValid()) {
-                apiClient = ApiClient
-                sessionManager = SessionManager(this)
+                showProgress()
                 val intent = Intent(this, LoginActivity::class.java)
 
                 // signup api function to register new user account
@@ -64,19 +69,22 @@ class RegisterActivity : AppCompatActivity() {
                     .enqueue(object : Callback<SignupResponse> {
 
                         override fun onFailure(call: Call<SignupResponse>, t: Throwable) {
+                            hideProgress()
                             Log.d("User registration error: ", t.toString())
+                            Toast.makeText(this@RegisterActivity, t.toString(), Toast.LENGTH_LONG).show()
                         }
 
                         override fun onResponse(
                             call: Call<SignupResponse>,
                             response: Response<SignupResponse>
                         ) {
+                            hideProgress()
                             val signupResponse = response.body()
                             startActivity(intent)
                             Toast.makeText(this@RegisterActivity, "User Registration Successful!", Toast.LENGTH_LONG).show()
                             if (signupResponse?.message == "user created") {
                             } else {
-                                // Error logging in
+                                hideProgress()
                             }
                         }
                     })
@@ -135,5 +143,17 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         return true
+    }
+
+    private fun showProgress() {
+        progressDialog?.setTitle("Please Wait")
+        progressDialog?.setMessage("Loading ...")
+        progressDialog?.show()
+    }
+
+    private fun hideProgress() {
+        if (progressDialog != null) {
+            progressDialog?.dismiss()
+        }
     }
 }
