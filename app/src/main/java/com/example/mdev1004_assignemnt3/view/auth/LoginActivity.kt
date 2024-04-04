@@ -1,5 +1,6 @@
 package com.example.mdev1004_assignemnt3.view.auth
 
+import android.app.ProgressDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -21,7 +22,7 @@ import retrofit2.Response
  * Student Name / Student ID:
  * Puja Shrestha, 200573293
  * Suyog Shrestha, 200565523
- * Date: March 17, 2024
+ * Date: April 4, 2024
  */
 class LoginActivity : AppCompatActivity() {
 
@@ -32,6 +33,7 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var sessionManager: SessionManager
     private lateinit var apiClient: ApiClient
+    private var progressDialog: ProgressDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,11 +44,14 @@ class LoginActivity : AppCompatActivity() {
         btnLogin = findViewById(R.id.btn_login)
         btnRegister = findViewById(R.id.btn_register)
 
+        apiClient = ApiClient
+        sessionManager = SessionManager(this)
+        progressDialog = ProgressDialog(this)
+
         // user login and token generate with retrofit login method
         btnLogin.setOnClickListener {
             if (isValid()) {
-                apiClient = ApiClient
-                sessionManager = SessionManager(this)
+                showProgress()
                 val intent = Intent(this, BookActivity::class.java)
 
                 apiClient.getApiService().login(
@@ -55,27 +60,29 @@ class LoginActivity : AppCompatActivity() {
                         password = etPassword.text.toString()
                     )
                 )
-                    .enqueue(object : retrofit2.Callback<LoginResponse> {
-                        override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                            Log.d("LoginOnFailure", t.toString())
-                            Toast.makeText(this@LoginActivity, "User logged in Failure!", Toast.LENGTH_LONG).show()
-                        }
+                .enqueue(object : retrofit2.Callback<LoginResponse> {
+                    override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                        hideProgress()
+                        Log.d("LoginOnFailure", t.toString())
+                        Toast.makeText(this@LoginActivity, t.toString(), Toast.LENGTH_LONG).show()
+                    }
 
-                        override fun onResponse(
-                            call: Call<LoginResponse>,
-                            response: Response<LoginResponse>
-                        ) {
-                            val loginResponse = response.body()
+                    override fun onResponse(
+                        call: Call<LoginResponse>,
+                        response: Response<LoginResponse>
+                    ) {
+                        hideProgress()
+                        val loginResponse = response.body()
 
-                            if (loginResponse?.message == "user logged in") {
-                                Toast.makeText(this@LoginActivity, "User logged in Successful!", Toast.LENGTH_LONG).show()
-                                sessionManager.saveAuthToken(loginResponse.accessToken)
-                                startActivity(intent)
-                            } else {
-                                Log.d("User login: ", "Error logging in")
-                            }
+                        if (loginResponse?.message == "user logged in") {
+                            Toast.makeText(this@LoginActivity, "User logged in Successful!", Toast.LENGTH_LONG).show()
+                            sessionManager.saveAuthToken(loginResponse.accessToken)
+                            startActivity(intent)
+                        } else {
+                            Toast.makeText(this@LoginActivity, "Please enter the valid login credential", Toast.LENGTH_LONG).show()
                         }
-                    })
+                    }
+                })
             }
         }
 
@@ -102,5 +109,17 @@ class LoginActivity : AppCompatActivity() {
         }
 
         return true
+    }
+
+    private fun showProgress() {
+        progressDialog?.setTitle("Please Wait")
+        progressDialog?.setMessage("Loading ...")
+        progressDialog?.show()
+    }
+
+    private fun hideProgress() {
+        if (progressDialog != null) {
+            progressDialog?.dismiss()
+        }
     }
 }

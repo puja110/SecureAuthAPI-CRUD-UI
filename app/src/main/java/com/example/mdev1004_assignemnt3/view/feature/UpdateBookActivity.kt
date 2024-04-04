@@ -34,7 +34,9 @@ class UpdateBookActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_update_book)
 
+        // Create an instances of ApiClient and Session Manager
         sessionManager = SessionManager(this)
+        apiClient = ApiClient
 
         // Retrieve the book data from the intent
         val book = intent.getStringArrayExtra("book")
@@ -50,6 +52,7 @@ class UpdateBookActivity: AppCompatActivity() {
         authorEditText = findViewById(R.id.authorEditText)
 
         Log.d("Book Id", book?.get(0).toString())
+
         // Populate the fields with the book data
         bookNameEditText.setText(book?.get(1))
         ratingEditText.setText(book?.get(2))
@@ -57,12 +60,13 @@ class UpdateBookActivity: AppCompatActivity() {
 
         // Handle update button click
         val updateButton = findViewById<Button>(R.id.updateButton)
+
         // getting access token from the server
         val accessToken = sessionManager.fetchAuthToken().toString()
 
+        // Set OnClickListener for the update book button
         updateButton.setOnClickListener {
-            apiClient = ApiClient
-            apiClient.getApiService().updateBook(
+            apiClient.getApiService().updateBook(   // Call the deleteBook function in the API service
                 id = book?.get(0).toString(),
                 token = "Bearer $accessToken",
                 updatedBook = UpdateBook(bookName = bookNameEditText.text.toString(),
@@ -70,26 +74,26 @@ class UpdateBookActivity: AppCompatActivity() {
                     author =   authorEditText.text.toString()
                     )
             )
-                .enqueue(object : Callback<UpdateBookResponse> {
-                    override fun onResponse(
-                        call: Call<UpdateBookResponse>,
-                        response: Response<UpdateBookResponse>
-                    ) {
-                        if(response.isSuccessful){
-                            val intent = Intent(this@UpdateBookActivity, BookActivity::class.java)
-                            startActivity(intent)
-                            Toast.makeText(this@UpdateBookActivity, "Book Updated", Toast.LENGTH_LONG).show()
-                        }else {
-                            Toast.makeText(this@UpdateBookActivity, "Book Update Failure", Toast.LENGTH_LONG).show()
-                        }
+            .enqueue(object : Callback<UpdateBookResponse> {
+                override fun onResponse(
+                    call: Call<UpdateBookResponse>,
+                    response: Response<UpdateBookResponse>
+                ) {
+                    if(response.isSuccessful){
+                        // Navigate to the BookActivity after successful book update
+                        val intent = Intent(this@UpdateBookActivity, BookActivity::class.java)
+                        startActivity(intent)
 
-                    }
-                    override fun onFailure(call: Call<UpdateBookResponse>, t: Throwable) {
+                        Toast.makeText(this@UpdateBookActivity, "Book Updated", Toast.LENGTH_LONG).show()
+                    }else {
                         Toast.makeText(this@UpdateBookActivity, "Book Update Failure", Toast.LENGTH_LONG).show()
                     }
 
-
-                })
+                }
+                override fun onFailure(call: Call<UpdateBookResponse>, t: Throwable) {
+                    Toast.makeText(this@UpdateBookActivity, "Book Update Failure", Toast.LENGTH_LONG).show()
+                }
+            })
         }
     }
 }
