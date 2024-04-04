@@ -30,8 +30,10 @@ class BookActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_book)
 
+        // Initializing ApiClient and Session Manager
         apiClient = ApiClient
         sessionManager = SessionManager(this)
+
         ivBack = findViewById(R.id.iv_back)
         logOff = findViewById(R.id.floatingActionButton)
         addBook = findViewById(R.id.floatingActionAddButton)
@@ -40,11 +42,13 @@ class BookActivity : AppCompatActivity() {
             onBackPressedDispatcher.onBackPressed()
         }
 
+        // Redirect to the AddBookActivity
         addBook.setOnClickListener {
             val intent = Intent(this, AddBookActivity::class.java)
             startActivity(intent)
         }
 
+        // Log the user out from the app and navigate back to the login screen
         logOff.setOnClickListener {
             sessionManager.deleteAuthToken()
             val intent = Intent(this, LoginActivity::class.java)
@@ -52,6 +56,7 @@ class BookActivity : AppCompatActivity() {
             Toast.makeText(this@BookActivity, "User logged off", Toast.LENGTH_LONG).show()
         }
 
+        // Fetching list from the server
         getBookList()
     }
 
@@ -78,6 +83,4 @@ class BookActivity : AppCompatActivity() {
                 }
             })
     }
-
-
 }

@@ -32,9 +32,12 @@ class AddBookActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_book)
 
+        // Initializing the session manager
         sessionManager = SessionManager(this)
 
         ivBack = findViewById(R.id.iv_back)
+
+        // Allows the user to navigate back to the previous screen
         ivBack.setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
@@ -49,9 +52,11 @@ class AddBookActivity : AppCompatActivity() {
 
         // Handle update button click
         val updateButton = findViewById<Button>(R.id.addButton)
-        // getting access token from the server
+
+        // Getting access token from the server
         val accessToken = sessionManager.fetchAuthToken().toString()
 
+        // Update book with retrofit login method
         updateButton.setOnClickListener {
             apiClient = ApiClient
             apiClient.getApiService().addBook(
@@ -70,6 +75,7 @@ class AddBookActivity : AppCompatActivity() {
                     response: Response<AddBookResponse>
                 ) {
                     if (response.isSuccessful) {
+                        // Navigate to the book activity after successful update
                         val intent = Intent(this@AddBookActivity, BookActivity::class.java)
                         startActivity(intent)
                         Toast.makeText(this@AddBookActivity, "Book Added", Toast.LENGTH_LONG).show()
@@ -84,9 +90,7 @@ class AddBookActivity : AppCompatActivity() {
                         .show()
                 }
 
-            }
-            )
-
+            })
         }
     }
 }

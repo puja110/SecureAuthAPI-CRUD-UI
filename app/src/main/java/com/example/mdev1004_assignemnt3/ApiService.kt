@@ -45,7 +45,4 @@ interface ApiService {
     @DELETE("books/{id}")
     fun deleteBook(@Header ("Authorization") token: String,
                    @Path("id") id: String): Call<DeleteBookResponse>
-
-
-
 }
