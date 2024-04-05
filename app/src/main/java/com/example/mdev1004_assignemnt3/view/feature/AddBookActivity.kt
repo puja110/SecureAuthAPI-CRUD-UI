@@ -25,6 +25,7 @@ class AddBookActivity : AppCompatActivity() {
     private lateinit var genreEditText: EditText
     private lateinit var ivBack: ImageView
     private lateinit var updateButton: Button
+    private lateinit var cancelButton: Button
 
     private lateinit var sessionManager: SessionManager
     private lateinit var apiClient: ApiClient
@@ -44,10 +45,16 @@ class AddBookActivity : AppCompatActivity() {
         isbnEditText = findViewById(R.id.isbnEditText)
         genreEditText = findViewById(R.id.genreEditText)
         updateButton = findViewById(R.id.addButton)
+        cancelButton = findViewById(R.id.cancelButton)
         ivBack = findViewById(R.id.iv_back)
 
         // Allows the user to navigate back to the previous screen
         ivBack.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
+
+        // Allows the user to navigate back to the previous screen on cancel click
+        cancelButton.setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
 

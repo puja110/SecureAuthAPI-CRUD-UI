@@ -50,11 +50,12 @@ class BookAdapter(
         // Get references to the views in the ViewHolder
         val bookCard = viewHolder.itemView.findViewById<CardView>(R.id.book_card)
         val deleteBookButton = viewHolder.itemView.findViewById<Button>(R.id.delete_book_button)
+        val editBookButton = viewHolder.itemView.findViewById<Button>(R.id.update_book_button)
 
         // Get the access token from the session manager
         val accessToken = sessionManager.fetchAuthToken().toString()
 
-        // Set OnClickListener to navigate to UpdateBookActivity when a book card is clicked
+        // Set OnClickListener on card to navigate to UpdateBookActivity when a book card is clicked
         bookCard.setOnClickListener {
             val intent = Intent(binding.root.context, UpdateBookActivity::class.java).apply {
                 // Pass book details to UpdateBookActivity
@@ -69,6 +70,21 @@ class BookAdapter(
             binding.root.context.startActivity(intent)
         }
 
+        // Set OnClickListener on edit button to navigate to UpdateBookActivity when a book card is clicked
+        editBookButton.setOnClickListener {
+            val intent = Intent(binding.root.context, UpdateBookActivity::class.java).apply {
+                // Pass book details to UpdateBookActivity
+                val book = arrayOf( bookCard.findViewById<TextView>(R.id.tv_book_id).text.toString(),
+                    bookCard.findViewById<TextView>(R.id.tv_book_title).text.toString(),
+                    bookCard.findViewById<TextView>(R.id.tv_book_rating).text.toString(),
+                    bookCard.findViewById<TextView>(R.id.tv_book_author).text.toString()
+                )
+                putExtra("book", book)
+            }
+            // Start the UpdateBookActivity
+            binding.root.context.startActivity(intent)
+        }
+
         // Set OnClickListener for the delete book button
         deleteBookButton.setOnClickListener {
             apiClient = ApiClient   // Create an instance of ApiClient
@@ -76,29 +92,30 @@ class BookAdapter(
                 id = bookCard.findViewById<TextView>(R.id.tv_book_id).text.toString(),
                 token = "Bearer $accessToken"
             )
-            .enqueue(object : Callback<DeleteBookResponse>{
-                override fun onResponse(
-                    call: Call<DeleteBookResponse>,
-                    response: Response<DeleteBookResponse>
-                ) {
-                    if (response.isSuccessful) {
-                        // Remove the deleted book from the dataset
-                        val position = viewHolder.adapterPosition
-                        bookList.removeAt(position)
-                        notifyItemRemoved(position)
+                .enqueue(object : Callback<DeleteBookResponse>{
+                    override fun onResponse(
+                        call: Call<DeleteBookResponse>,
+                        response: Response<DeleteBookResponse>
+                    ) {
+                        if (response.isSuccessful) {
+                            // Remove the deleted book from the dataset
+                            val position = viewHolder.adapterPosition
+                            bookList.removeAt(position)
+                            notifyItemRemoved(position)
 
-                        Toast.makeText(binding.root.context, "Book deleted successfully", Toast.LENGTH_LONG).show()
-                    } else {
+                            Toast.makeText(binding.root.context, "Book deleted successfully", Toast.LENGTH_LONG).show()
+                        } else {
+                            Toast.makeText(binding.root.context, "Failed to delete book", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
+                    override fun onFailure(call: Call<DeleteBookResponse>, t: Throwable) {
+                        // Show an error message if the request fails
                         Toast.makeText(binding.root.context, "Failed to delete book", Toast.LENGTH_SHORT).show()
                     }
-                }
-
-                override fun onFailure(call: Call<DeleteBookResponse>, t: Throwable) {
-                    // Show an error message if the request fails
-                    Toast.makeText(binding.root.context, "Failed to delete book", Toast.LENGTH_SHORT).show()
-                }
-            })
+                })
         }
+
         return viewHolder
     }
 

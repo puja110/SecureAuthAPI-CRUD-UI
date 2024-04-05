@@ -25,6 +25,7 @@ class UpdateBookActivity: AppCompatActivity() {
     private lateinit var bookNameEditText: EditText
     private lateinit var ratingEditText: EditText
     private lateinit var authorEditText: EditText
+    private lateinit var cancelButton: Button
     private lateinit var ivBack: ImageView
 
     private lateinit var sessionManager: SessionManager
@@ -41,15 +42,23 @@ class UpdateBookActivity: AppCompatActivity() {
         // Retrieve the book data from the intent
         val book = intent.getStringArrayExtra("book")
 
-        ivBack = findViewById(R.id.iv_back)
-        ivBack.setOnClickListener {
-            onBackPressedDispatcher.onBackPressed()
-        }
-
         // Initialize EditText fields
         bookNameEditText = findViewById(R.id.bookNameEditText)
         ratingEditText = findViewById(R.id.ratingEditText)
         authorEditText = findViewById(R.id.authorEditText)
+        authorEditText = findViewById(R.id.authorEditText)
+        cancelButton = findViewById(R.id.cancelButton)
+        ivBack = findViewById(R.id.iv_back)
+
+        // Allows the user to navigate back to the previous screen
+        ivBack.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
+
+        // Allows the user to navigate back to the previous screen on cancel button click
+        cancelButton.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
 
         Log.d("Book Id", book?.get(0).toString())
 

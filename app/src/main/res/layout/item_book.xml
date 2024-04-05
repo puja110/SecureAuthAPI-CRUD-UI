@@ -9,7 +9,7 @@
         android:id="@+id/book_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="6dp"
+        android:layout_marginVertical="7dp"
         android:layout_marginHorizontal="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,10 +23,10 @@
 
             <ImageView
                 android:id="@+id/iv_book_image"
-                android:layout_width="100dp"
+                android:layout_width="105dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center"
-                android:paddingStart="10dp"
+                android:paddingStart="2dp"
                 android:scaleType="fitXY"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -40,14 +40,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"
                 android:orientation="vertical"
-                android:padding="10dp">
+                android:paddingVertical="7dp"
+                android:paddingStart="6dp"
+                android:paddingEnd="6dp">
 
                 <TextView
                     android:id="@+id/tv_book_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif"
-                    android:paddingBottom="10dp"
+                    android:paddingBottom="0dp"
                     android:text="Title"
                     android:textColor="@color/black"
                     android:textSize="20dp"
@@ -83,21 +85,29 @@
                             tools:layout_editor_absoluteX="117dp"
                             tools:layout_editor_absoluteY="58dp" />
 
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/tv_book_author"
-                            android:layout_width="wrap_content"
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="sans-serif"
-                            android:paddingBottom="10dp"
-                            android:text="Author"
-                            android:textSize="18dp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            tools:layout_conversion_absoluteHeight="34dp"
-                            tools:layout_conversion_absoluteWidth="54dp"
-                            tools:layout_editor_absoluteX="117dp"
-                            tools:layout_editor_absoluteY="77dp" />
+                            android:orientation="horizontal">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/tv_book_author"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2.5"
+                                android:fontFamily="sans-serif"
+                                android:paddingBottom="4dp"
+                                android:text="Author"
+                                android:textSize="18dp"/>
+
+                            <Button
+                                android:id="@+id/update_book_button"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Edit"/>
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:layout_width="match_parent"
@@ -108,30 +118,22 @@
                                 android:id="@+id/tv_book_rating"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1.5"
+                                android:layout_weight="2.5"
                                 android:fontFamily="sans-serif"
                                 android:text="7.0"
                                 android:textColor="#F44336"
                                 android:textSize="20dp"
-                                android:textStyle="bold"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                tools:layout_conversion_absoluteHeight="27dp"
-                                tools:layout_conversion_absoluteWidth="29dp"
-                                tools:layout_editor_absoluteX="117dp"
-                                tools:layout_editor_absoluteY="111dp" />
+                                android:textStyle="bold" />
 
-                            <Button
+                            <androidx.appcompat.widget.AppCompatButton
                                 android:id="@+id/delete_book_button"
                                 android:layout_width="0dp"
-                                android:layout_height="wrap_content"
+                                android:layout_height="38dp"
                                 android:layout_weight="1"
                                 android:text="Delete"
-                                tools:layout_conversion_absoluteHeight="48dp"
-                                tools:layout_conversion_absoluteWidth="91dp"
-                                tools:layout_editor_absoluteX="117dp"
-                                tools:layout_editor_absoluteY="138dp" />
+                                android:textAllCaps="false"
+                                android:textColor="@color/white"
+                                android:background="@drawable/button_delete_bg"/>
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
                     </androidx.appcompat.widget.LinearLayoutCompat>

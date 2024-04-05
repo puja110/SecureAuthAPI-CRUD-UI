@@ -60,6 +60,8 @@
         android:clickable="true"
         android:contentDescription="@string/button_for_logging_off"
         android:focusable="true"
+        android:backgroundTint="#F44336"
+        app:tint="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@android:drawable/ic_lock_power_off" />
@@ -72,6 +74,8 @@
         android:clickable="true"
         android:contentDescription="@string/add_new_book"
         android:focusable="true"
+        android:backgroundTint="#15BA10"
+        app:tint="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:srcCompat="@android:drawable/ic_input_add" />

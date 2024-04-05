@@ -2,22 +2,21 @@ package com.example.mdev1004_assignemnt3.view.auth
 
 import android.app.ProgressDialog
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.mdev1004_assignemnt3.ApiClient
 import com.example.mdev1004_assignemnt3.R
 import com.example.mdev1004_assignemnt3.SessionManager
-import com.example.mdev1004_assignemnt3.model.LoginResponse
 import com.example.mdev1004_assignemnt3.model.SignupRequest
 import com.example.mdev1004_assignemnt3.model.SignupResponse
-import com.example.mdev1004_assignemnt3.view.feature.BookActivity
 import com.google.android.material.textfield.TextInputEditText
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.regex.Pattern
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -34,6 +33,15 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var sessionManager: SessionManager
     private lateinit var apiClient: ApiClient
     private var progressDialog: ProgressDialog? = null
+
+    // defining password pattern
+    private val PASSWORD_PATTERN: Pattern = Pattern.compile(
+"^" +
+        "(?=.*[@#$%^&+=])" +  // at least 1 special character
+        "(?=\\S+$)" +  // no white spaces
+        ".{8,}" +  // at least 8 characters
+        "$"
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -138,6 +146,11 @@ class RegisterActivity : AppCompatActivity() {
         if(password.length < 8) {
             Toast.makeText(this@RegisterActivity, "Password should be at least 8 character long!", Toast.LENGTH_SHORT).show()
             return false
+        }
+
+        if (!PASSWORD_PATTERN.matcher(password).matches()) {
+            Toast.makeText(this@RegisterActivity, "Password is too weak!", Toast.LENGTH_SHORT).show()
+            return false;
         }
 
         if (confirmPassword.isEmpty()) {
