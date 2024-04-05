@@ -23,8 +23,8 @@
 
             <ImageView
                 android:id="@+id/iv_book_image"
-                android:layout_width="95dp"
-                android:layout_height="95dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_gravity="center"
                 android:paddingStart="10dp"
                 android:scaleType="fitXY"
@@ -62,26 +62,26 @@
                     android:orientation="horizontal">
 
                     <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/linearLayoutCompat"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginVertical="5dp"
                         android:layout_weight="2"
                         android:orientation="vertical"
-                        tools:ignore="MissingConstraints"
-                        android:id="@+id/linearLayoutCompat">
+                        tools:ignore="MissingConstraints">
 
                         <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_book_id"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        android:visibility="invisible"
+                            android:id="@+id/tv_book_id"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
                             tools:layout_conversion_absoluteHeight="19dp"
-                            tools:layout_editor_absoluteY="58dp"
+                            tools:layout_conversion_absoluteWidth="0dp"
                             tools:layout_editor_absoluteX="117dp"
-                            tools:layout_conversion_absoluteWidth="0dp" />
+                            tools:layout_editor_absoluteY="58dp" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tv_book_author"
@@ -95,36 +95,44 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             tools:layout_conversion_absoluteHeight="34dp"
-                            tools:layout_editor_absoluteY="77dp"
+                            tools:layout_conversion_absoluteWidth="54dp"
                             tools:layout_editor_absoluteX="117dp"
-                            tools:layout_conversion_absoluteWidth="54dp" />
+                            tools:layout_editor_absoluteY="77dp" />
 
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/tv_book_rating"
-                            android:layout_width="wrap_content"
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="sans-serif"
-                            android:text="7.0"
-                            android:textColor="#F44336"
-                            android:textSize="20dp"
-                            android:textStyle="bold"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            tools:layout_conversion_absoluteHeight="27dp"
-                            tools:layout_editor_absoluteY="111dp"
-                            tools:layout_editor_absoluteX="117dp"
-                            tools:layout_conversion_absoluteWidth="29dp" />
+                            android:orientation="horizontal">
 
-                        <Button
-                            android:id="@+id/delete_book_button"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Delete Book"
-                            tools:layout_conversion_absoluteHeight="48dp"
-                            tools:layout_editor_absoluteY="138dp"
-                            tools:layout_editor_absoluteX="117dp"
-                            tools:layout_conversion_absoluteWidth="91dp" />
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/tv_book_rating"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1.5"
+                                android:fontFamily="sans-serif"
+                                android:text="7.0"
+                                android:textColor="#F44336"
+                                android:textSize="20dp"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:layout_conversion_absoluteHeight="27dp"
+                                tools:layout_conversion_absoluteWidth="29dp"
+                                tools:layout_editor_absoluteX="117dp"
+                                tools:layout_editor_absoluteY="111dp" />
+
+                            <Button
+                                android:id="@+id/delete_book_button"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Delete"
+                                tools:layout_conversion_absoluteHeight="48dp"
+                                tools:layout_conversion_absoluteWidth="91dp"
+                                tools:layout_editor_absoluteX="117dp"
+                                tools:layout_editor_absoluteY="138dp" />
+                        </androidx.appcompat.widget.LinearLayoutCompat>
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 

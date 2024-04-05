@@ -48,12 +48,6 @@ class RegisterActivity : AppCompatActivity() {
         btnLogin = findViewById(R.id.btn_login)
         btnRegister = findViewById(R.id.btn_register)
 
-        var  firstName = etFirstName.text.toString()
-        var lastName = etLastName.text.toString()
-        val address = etAddress.text.toString()
-        val email = etEmail.text.toString()
-        val password = etPassword.text.toString()
-
         apiClient = ApiClient
         sessionManager = SessionManager(this)
         progressDialog = ProgressDialog(this)
@@ -65,29 +59,38 @@ class RegisterActivity : AppCompatActivity() {
                 val intent = Intent(this, LoginActivity::class.java)
 
                 // signup api function to register new user account
-                apiClient.getApiService().signup(SignupRequest(firstName = firstName, lastName = lastName, address = address, email = email, password = password))
-                    .enqueue(object : Callback<SignupResponse> {
+                apiClient.getApiService().signup(
+                    SignupRequest(
+                        firstName = etFirstName.text.toString(),
+                        lastName = etLastName.text.toString(),
+                        address = etAddress.text.toString(),
+                        email = etEmail.text.toString(),
+                        password = etPassword.text.toString()
+                    )
+                )
+                .enqueue(object : Callback<SignupResponse> {
 
-                        override fun onFailure(call: Call<SignupResponse>, t: Throwable) {
-                            hideProgress()
-                            Log.d("User registration error: ", t.toString())
-                            Toast.makeText(this@RegisterActivity, t.toString(), Toast.LENGTH_LONG).show()
-                        }
+                    override fun onFailure(call: Call<SignupResponse>, t: Throwable) {
+                        hideProgress()
+                        Log.d("User registration error: ", t.toString())
+                        Toast.makeText(this@RegisterActivity, t.toString(), Toast.LENGTH_LONG).show()
+                    }
 
-                        override fun onResponse(
-                            call: Call<SignupResponse>,
-                            response: Response<SignupResponse>
-                        ) {
-                            hideProgress()
-                            val signupResponse = response.body()
+                    override fun onResponse(
+                        call: Call<SignupResponse>,
+                        response: Response<SignupResponse>
+                    ) {
+                        hideProgress()
+                        val signupResponse = response.body()
+                        if (signupResponse?.message == "user created") {
                             startActivity(intent)
                             Toast.makeText(this@RegisterActivity, "User Registration Successful!", Toast.LENGTH_LONG).show()
-                            if (signupResponse?.message == "user created") {
-                            } else {
-                                hideProgress()
-                            }
+                        } else {
+                            hideProgress()
+                            Toast.makeText(this@RegisterActivity, "Please put the strong password", Toast.LENGTH_LONG).show()
                         }
-                    })
+                    }
+                })
             }
         }
 
@@ -129,6 +132,11 @@ class RegisterActivity : AppCompatActivity() {
 
         if (password.isEmpty()) {
             Toast.makeText(this@RegisterActivity, "Password field cannot be empty!", Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        if(password.length < 8) {
+            Toast.makeText(this@RegisterActivity, "Password should be at least 8 character long!", Toast.LENGTH_SHORT).show()
             return false
         }
 
