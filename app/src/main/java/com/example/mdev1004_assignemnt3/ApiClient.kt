@@ -19,16 +19,21 @@ object ApiClient {
         val mHttpLoggingInterceptor = HttpLoggingInterceptor()
             .setLevel(HttpLoggingInterceptor.Level.BODY)
 
-        // OkHttpClient setup
         val mOkHttpClient = OkHttpClient.Builder()
             .cookieJar(object : CookieJar {
+                // A place to store cookies received from the server
                 private var cookies: List<Cookie> = ArrayList()
 
+                // This method is called when the server sets cookies.
+                // The OkHttp client calls this method to save cookies from the HTTP response.
                 override fun saveFromResponse(url: HttpUrl, cookies: List<Cookie>) {
-                    this.cookies = cookies
+                    this.cookies = cookies // Store the cookies for future requests
                 }
 
+                // This method is called before sending an HTTP request.
+                // The OkHttp client calls this method to load cookies for the HTTP request.
                 override fun loadForRequest(url: HttpUrl): List<Cookie> {
+                    // Return
                     return cookies
                 }
             })

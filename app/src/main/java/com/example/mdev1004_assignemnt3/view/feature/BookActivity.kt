@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mdev1004_assignemnt3.ApiClient
 import com.example.mdev1004_assignemnt3.R
 import com.example.mdev1004_assignemnt3.model.BookResponse
+import com.example.mdev1004_assignemnt3.model.LogoutResponse
 import com.example.mdev1004_assignemnt3.view.auth.LoginActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import retrofit2.Call
@@ -41,14 +42,11 @@ class BookActivity : AppCompatActivity() {
 
         // Log the user out from the app and navigate back to the login screen
         logOff.setOnClickListener {
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-            Toast.makeText(this@BookActivity, "User logged off", Toast.LENGTH_LONG).show()
+            userLogout()
         }
 
         // Fetching list from the server
         getBookList()
-
     }
 
     private fun getBookList() {
@@ -68,6 +66,32 @@ class BookActivity : AppCompatActivity() {
 
                 override fun onFailure(call: Call<List<BookResponse>>, t: Throwable) {
                     Log.d("book response error", t.toString())
+                }
+            })
+    }
+
+    private fun userLogout() {
+        val intent = Intent(this, LoginActivity::class.java)
+        // fetching book data from the server
+        apiClient.getApiService
+            .logout()
+            .enqueue(object : Callback<LogoutResponse> {
+                override fun onResponse(
+                    call: Call<LogoutResponse>,
+                    response: Response<LogoutResponse>
+                ) {
+                    val logoutResponse = response.body()
+
+                    if (logoutResponse?.message == "Logout Succesfull") {
+                        startActivity(intent)
+                        Toast.makeText(this@BookActivity, "User logged off", Toast.LENGTH_LONG).show()
+                    } else {
+                        Toast.makeText(this@BookActivity, "Please enter the valid login credential", Toast.LENGTH_LONG).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<LogoutResponse>, t: Throwable) {
+                    Log.d("User logout error", t.toString())
                 }
             })
     }

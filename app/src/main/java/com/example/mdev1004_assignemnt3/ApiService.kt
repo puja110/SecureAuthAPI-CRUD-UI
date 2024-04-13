@@ -5,6 +5,7 @@ import com.example.mdev1004_assignemnt3.model.BookResponse
 import com.example.mdev1004_assignemnt3.model.DeleteBookResponse
 import com.example.mdev1004_assignemnt3.model.LoginRequest
 import com.example.mdev1004_assignemnt3.model.LoginResponse
+import com.example.mdev1004_assignemnt3.model.LogoutResponse
 import com.example.mdev1004_assignemnt3.model.NewBook
 import com.example.mdev1004_assignemnt3.model.SignupRequest
 import com.example.mdev1004_assignemnt3.model.SignupResponse
@@ -32,4 +33,7 @@ interface ApiService {
 
     @GET("books/")
     fun getBooks(): Call<List<BookResponse>>
+
+    @GET("auth/logout")
+    fun logout(): Call<LogoutResponse>
 }
