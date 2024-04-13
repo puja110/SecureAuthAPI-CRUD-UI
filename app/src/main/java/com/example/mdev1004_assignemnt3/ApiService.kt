@@ -31,18 +31,5 @@ interface ApiService {
     fun signup(@Body request: SignupRequest): Call<SignupResponse>
 
     @GET("books/")
-    fun getBooks(@Header ("Authorization") token: String): Call<List<BookResponse>>
-
-    @POST("books/")
-    fun addBook(@Header ("Authorization") token: String,
-                @Body book: NewBook): Call<AddBookResponse>
-
-    @PATCH("books/{id}")
-    fun updateBook(@Header ("Authorization") token: String,
-                   @Body updatedBook: UpdateBook,
-                   @Path("id") id: String): Call<UpdateBookResponse>
-
-    @DELETE("books/{id}")
-    fun deleteBook(@Header ("Authorization") token: String,
-                   @Path("id") id: String): Call<DeleteBookResponse>
+    fun getBooks(): Call<List<BookResponse>>
 }

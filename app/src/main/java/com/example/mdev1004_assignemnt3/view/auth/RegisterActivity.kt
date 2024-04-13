@@ -9,7 +9,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mdev1004_assignemnt3.ApiClient
 import com.example.mdev1004_assignemnt3.R
-import com.example.mdev1004_assignemnt3.SessionManager
 import com.example.mdev1004_assignemnt3.model.SignupRequest
 import com.example.mdev1004_assignemnt3.model.SignupResponse
 import com.google.android.material.textfield.TextInputEditText
@@ -30,7 +29,6 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var etLastName : TextInputEditText
     private lateinit var etAddress : TextInputEditText
 
-    private lateinit var sessionManager: SessionManager
     private lateinit var apiClient: ApiClient
     private var progressDialog: ProgressDialog? = null
 
@@ -57,7 +55,6 @@ class RegisterActivity : AppCompatActivity() {
         btnRegister = findViewById(R.id.btn_register)
 
         apiClient = ApiClient
-        sessionManager = SessionManager(this)
         progressDialog = ProgressDialog(this)
 
         // navigate to the Login screen upon successful registration
@@ -72,7 +69,7 @@ class RegisterActivity : AppCompatActivity() {
                         firstName = etFirstName.text.toString(),
                         lastName = etLastName.text.toString(),
                         address = etAddress.text.toString(),
-                        email = etEmail.text.toString(),
+                        username = etEmail.text.toString(),
                         password = etPassword.text.toString()
                     )
                 )

@@ -9,7 +9,6 @@ import android.widget.Button
 import android.widget.Toast
 import com.example.mdev1004_assignemnt3.ApiClient
 import com.example.mdev1004_assignemnt3.R
-import com.example.mdev1004_assignemnt3.SessionManager
 import com.example.mdev1004_assignemnt3.model.LoginRequest
 import com.example.mdev1004_assignemnt3.model.LoginResponse
 import com.example.mdev1004_assignemnt3.view.feature.BookActivity
@@ -31,7 +30,6 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var etEmail : TextInputEditText
     private lateinit var etPassword : TextInputEditText
 
-    private lateinit var sessionManager: SessionManager
     private lateinit var apiClient: ApiClient
     private var progressDialog: ProgressDialog? = null
 
@@ -45,7 +43,6 @@ class LoginActivity : AppCompatActivity() {
         btnRegister = findViewById(R.id.btn_register)
 
         apiClient = ApiClient
-        sessionManager = SessionManager(this)
         progressDialog = ProgressDialog(this)
 
         // user login and token generate with retrofit login method
@@ -56,7 +53,7 @@ class LoginActivity : AppCompatActivity() {
 
                 apiClient.getApiService().login(
                     LoginRequest(
-                        email = etEmail.text.toString(),
+                        username = etEmail.text.toString(),
                         password = etPassword.text.toString()
                     )
                 )
@@ -74,9 +71,8 @@ class LoginActivity : AppCompatActivity() {
                         hideProgress()
                         val loginResponse = response.body()
 
-                        if (loginResponse?.message == "user logged in") {
+                        if (loginResponse?.message == "User login Successfull") {
                             Toast.makeText(this@LoginActivity, "User logged in Successful!", Toast.LENGTH_LONG).show()
-                            sessionManager.saveAuthToken(loginResponse.accessToken)
                             startActivity(intent)
                         } else {
                             Toast.makeText(this@LoginActivity, "Please enter the valid login credential", Toast.LENGTH_LONG).show()

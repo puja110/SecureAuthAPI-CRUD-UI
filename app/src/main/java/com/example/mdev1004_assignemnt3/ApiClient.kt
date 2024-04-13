@@ -7,8 +7,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiClient {
 
-        private const val BASE_URL = "https://mdev1004-assignment3-securingapi.onrender.com/"
-//    private const val BASE_URL = "http://localhost:4001/"
+    // private const val BASE_URL = "https://mdev1004-assignment3-4gv0.onrender.com"
+    // private const val BASE_URL = "https://mdev1004-assignment3-securingapi.onrender.com/"
+    private const val BASE_URL = "http://localhost:4001/"
     fun getApiService(): ApiService {
         var mHttpLoggingInterceptor = HttpLoggingInterceptor()
             .setLevel(HttpLoggingInterceptor.Level.BODY)
