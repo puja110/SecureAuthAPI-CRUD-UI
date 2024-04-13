@@ -51,7 +51,7 @@ class LoginActivity : AppCompatActivity() {
                 showProgress()
                 val intent = Intent(this, BookActivity::class.java)
 
-                apiClient.getApiService().login(
+                apiClient.getApiService.login(
                     LoginRequest(
                         username = etEmail.text.toString(),
                         password = etPassword.text.toString()

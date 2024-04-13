@@ -2,6 +2,7 @@ package com.example.mdev1004_assignemnt3.view.feature
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.widget.ImageView
 import android.widget.Toast
@@ -47,11 +48,12 @@ class BookActivity : AppCompatActivity() {
 
         // Fetching list from the server
         getBookList()
+
     }
 
     private fun getBookList() {
         // fetching book data from the server
-        apiClient.getApiService()
+        apiClient.getApiService
             .getBooks()
             .enqueue(object : Callback<List<BookResponse>> {
                 override fun onResponse(

@@ -64,7 +64,7 @@ class RegisterActivity : AppCompatActivity() {
                 val intent = Intent(this, LoginActivity::class.java)
 
                 // signup api function to register new user account
-                apiClient.getApiService().signup(
+                apiClient.getApiService.signup(
                     SignupRequest(
                         firstName = etFirstName.text.toString(),
                         lastName = etLastName.text.toString(),
